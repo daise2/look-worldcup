@@ -94,10 +94,15 @@
             background: linear-gradient(45deg, #ff6b6b, #ee5a24);
         }
         
-        .style-icon {
-            font-size: 4em;
+        .style-image {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 15px;
             margin-bottom: 20px;
             display: block;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         .style-name {
@@ -216,8 +221,8 @@
 </head>
 <body>
     <div class="container">
-        <h1>👗 룩 이상형 월드컵</h1>
-        <p class="subtitle">당신의 취향을 찾아보세요!</p>
+        <h1>재간둥이 월드컵</h1>
+        <p class="subtitle">🦷이^상한X 이상형 룩 고르기</p>
         
         <div class="progress-bar">
             <div class="progress-fill" id="progressFill"></div>
@@ -228,7 +233,7 @@
         <div id="gameContainer">
             <div class="vs-container">
                 <div class="style-card" id="leftCard" onclick="selectStyle('left')">
-                    <span class="style-icon" id="leftIcon">👔</span>
+                    <img class="style-image" id="leftImage" src="./look1.jpg" alt="룩 스타일">
                     <h3 class="style-name" id="leftName">캐주얼 룩</h3>
                     <p class="style-description" id="leftDesc">편안하고 자연스러운 일상 스타일</p>
                 </div>
@@ -236,7 +241,7 @@
                 <div class="vs-text">VS</div>
                 
                 <div class="style-card" id="rightCard" onclick="selectStyle('right')">
-                    <span class="style-icon" id="rightIcon">💼</span>
+                    <img class="style-image" id="rightImage" src="./look2.jpg" alt="룩 스타일">
                     <h3 class="style-name" id="rightName">포멀 룩</h3>
                     <p class="style-description" id="rightDesc">세련되고 우아한 정장 스타일</p>
                 </div>
@@ -246,7 +251,7 @@
         <div class="winner-announcement" id="winnerScreen">
             <h2 class="winner-title">🏆 우승!</h2>
             <div class="winner-card">
-                <span class="style-icon" id="winnerIcon">👔</span>
+                <img class="style-image" id="winnerImage" src="./look1.jpg" alt="우승 룩">
                 <h3 class="style-name" id="winnerName">캐주얼 룩</h3>
                 <p class="style-description" id="winnerDesc">편안하고 자연스러운 일상 스타일</p>
             </div>
@@ -258,27 +263,27 @@
         const styles = [
             {
                 name: "하얀 메리야스, 빛나는 전완근, 그리고 탯투 월요일 유현희",
-                icon: "💪",
+                image: "./look1.jpg",
                 description: "캐주얼한 흰티에 은은한 탯투로 포인트를 준 스타일"
             },
             {
                 name: "어디에서 타는 냄새 안 나요? ㅇㅇ 안 남 살안타템 입은 유교현희", 
-                icon: "🌞",
+                image: "./look2.jpg",
                 description: "자외선 차단 완벽! 피부 보호에 신경 쓴 건강미 스타일"
             },
             {
                 name: "체크를 벗으면 치과 일짱이 되는 클리셰 발동 환자분 심장 아프면 왼손 들어주세요",
-                icon: "🏥",
+                image: "./look3.jpg",
                 description: "의사 로망 체크셔츠! 지적이고 신뢰감 있는 스타일"
             },
             {
                 name: "모나미는 영원하다 사랑과 연하는.. 볼펜으로 쓰세요 키스는 알파벳 A부터",
-                icon: "✏️",
+                image: "./look4.jpg",
                 description: "레트로 감성 문구류 덕후! 빈티지하고 지적인 매력"
             },
             {
                 name: "이 부치 뭐야? 나만의 블랙 스완 당신을 보고 첫눈에 반했습니다",
-                icon: "🖤",
+                image: "./look5.jpg",
                 description: "시크하고 카리스마 넘치는 올블랙 스타일의 완성"
             }
         ];
@@ -337,11 +342,11 @@
             const left = currentRound[currentMatch];
             const right = currentRound[currentMatch + 1];
             
-            document.getElementById('leftIcon').textContent = left.icon;
+            document.getElementById('leftImage').src = left.image;
             document.getElementById('leftName').textContent = left.name;
             document.getElementById('leftDesc').textContent = left.description;
             
-            document.getElementById('rightIcon').textContent = right.icon;
+            document.getElementById('rightImage').src = right.image;
             document.getElementById('rightName').textContent = right.name;
             document.getElementById('rightDesc').textContent = right.description;
             
@@ -390,7 +395,7 @@
             document.getElementById('gameContainer').style.display = 'none';
             document.getElementById('winnerScreen').style.display = 'block';
             
-            document.getElementById('winnerIcon').textContent = winner.icon;
+            document.getElementById('winnerImage').src = winner.image;
             document.getElementById('winnerName').textContent = winner.name;
             document.getElementById('winnerDesc').textContent = winner.description;
         }
