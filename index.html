@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>룩 이상형 월드컵</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            max-width: 900px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        
+        .round-info {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            margin-bottom: 30px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        
+        .vs-container {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .style-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 300px;
+            border: 3px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .style-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            border-color: #ff6b6b;
+        }
+        
+        .style-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+        }
+        
+        .style-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .style-name {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .style-description {
+            color: #666;
+            font-size: 1em;
+            line-height: 1.4;
+        }
+        
+        .vs-text {
+            font-size: 3em;
+            font-weight: bold;
+            color: #ff6b6b;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .winner-announcement {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .winner-title {
+            font-size: 2.5em;
+            color: #ff6b6b;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+        
+        .winner-card {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            border-radius: 25px;
+            padding: 40px;
+            margin: 20px auto;
+            max-width: 400px;
+            box-shadow: 0 20px 40px rgba(255, 107, 107, 0.3);
+        }
+        
+        .winner-card .style-icon {
+            font-size: 5em;
+            margin-bottom: 20px;
+        }
+        
+        .winner-card .style-name {
+            color: white;
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+        
+        .winner-card .style-description {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.1em;
+        }
+        
+        .restart-btn {
+            background: white;
+            color: #ff6b6b;
+            border: 2px solid #ff6b6b;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+        
+        .restart-btn:hover {
+            background: #ff6b6b;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .progress-bar {
+            background: #f0f0f0;
+            height: 8px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+        
+        @media (max-width: 768px) {
+            .vs-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .style-card {
+                width: 100%;
+                max-width: 350px;
+            }
+            
+            .vs-text {
+                font-size: 2em;
+                margin: 10px 0;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>👗 룩 이상형 월드컵</h1>
+        <p class="subtitle">당신의 취향을 찾아보세요!</p>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        
+        <div class="round-info" id="roundInfo">8강 (1/4)</div>
+        
+        <div id="gameContainer">
+            <div class="vs-container">
+                <div class="style-card" id="leftCard" onclick="selectStyle('left')">
+                    <span class="style-icon" id="leftIcon">👔</span>
+                    <h3 class="style-name" id="leftName">캐주얼 룩</h3>
+                    <p class="style-description" id="leftDesc">편안하고 자연스러운 일상 스타일</p>
+                </div>
+                
+                <div class="vs-text">VS</div>
+                
+                <div class="style-card" id="rightCard" onclick="selectStyle('right')">
+                    <span class="style-icon" id="rightIcon">💼</span>
+                    <h3 class="style-name" id="rightName">포멀 룩</h3>
+                    <p class="style-description" id="rightDesc">세련되고 우아한 정장 스타일</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="winner-announcement" id="winnerScreen">
+            <h2 class="winner-title">🏆 우승!</h2>
+            <div class="winner-card">
+                <span class="style-icon" id="winnerIcon">👔</span>
+                <h3 class="style-name" id="winnerName">캐주얼 룩</h3>
+                <p class="style-description" id="winnerDesc">편안하고 자연스러운 일상 스타일</p>
+            </div>
+            <button class="restart-btn" onclick="restartGame()">다시 하기</button>
+        </div>
+    </div>
+
+    <script>
+        const styles = [
+            {
+                name: "하얀 메리야스, 빛나는 전완근, 그리고 탯투 월요일 유현희",
+                icon: "💪",
+                description: "캐주얼한 흰티에 은은한 탯투로 포인트를 준 스타일"
+            },
+            {
+                name: "어디에서 타는 냄새 안 나요? ㅇㅇ 안 남 살안타템 입은 유교현희", 
+                icon: "🌞",
+                description: "자외선 차단 완벽! 피부 보호에 신경 쓴 건강미 스타일"
+            },
+            {
+                name: "체크를 벗으면 치과 일짱이 되는 클리셰 발동 환자분 심장 아프면 왼손 들어주세요",
+                icon: "🏥",
+                description: "의사 로망 체크셔츠! 지적이고 신뢰감 있는 스타일"
+            },
+            {
+                name: "모나미는 영원하다 사랑과 연하는.. 볼펜으로 쓰세요 키스는 알파벳 A부터",
+                icon: "✏️",
+                description: "레트로 감성 문구류 덕후! 빈티지하고 지적인 매력"
+            },
+            {
+                name: "이 부치 뭐야? 나만의 블랙 스완 당신을 보고 첫눈에 반했습니다",
+                icon: "🖤",
+                description: "시크하고 카리스마 넘치는 올블랙 스타일의 완성"
+            }
+        ];
+
+        let currentRound = [];
+        let nextRound = [];
+        let currentMatch = 0;
+        let roundNumber = 1;
+        let totalMatches = 0;
+        let completedMatches = 0;
+
+        function initGame() {
+            currentRound = [...styles];
+            nextRound = [];
+            currentMatch = 0;
+            roundNumber = 1;
+            completedMatches = 0;
+            totalMatches = calculateTotalMatches();
+            
+            document.getElementById('gameContainer').style.display = 'block';
+            document.getElementById('winnerScreen').style.display = 'none';
+            
+            updateProgress();
+            showMatch();
+        }
+
+        function calculateTotalMatches() {
+            let total = 0;
+            let contestants = styles.length;
+            while (contestants > 1) {
+                total += Math.floor(contestants / 2);
+                contestants = Math.floor(contestants / 2);
+            }
+            return total;
+        }
+
+        function updateProgress() {
+            const progress = (completedMatches / totalMatches) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function showMatch() {
+            if (currentMatch >= currentRound.length) {
+                // 다음 라운드로
+                if (nextRound.length === 1) {
+                    showWinner(nextRound[0]);
+                    return;
+                }
+                
+                currentRound = [...nextRound];
+                nextRound = [];
+                currentMatch = 0;
+                roundNumber++;
+            }
+
+            const left = currentRound[currentMatch];
+            const right = currentRound[currentMatch + 1];
+            
+            document.getElementById('leftIcon').textContent = left.icon;
+            document.getElementById('leftName').textContent = left.name;
+            document.getElementById('leftDesc').textContent = left.description;
+            
+            document.getElementById('rightIcon').textContent = right.icon;
+            document.getElementById('rightName').textContent = right.name;
+            document.getElementById('rightDesc').textContent = right.description;
+            
+            updateRoundInfo();
+        }
+
+        function updateRoundInfo() {
+            const contestants = currentRound.length;
+            let roundName = '';
+            
+            if (contestants === 5) roundName = '5강';
+            else if (contestants === 4) roundName = '4강'; 
+            else if (contestants === 2) roundName = '결승';
+            
+            const matchNumber = Math.floor(currentMatch / 2) + 1;
+            const totalRoundMatches = Math.floor(contestants / 2);
+            
+            document.getElementById('roundInfo').textContent = 
+                `${roundName} (${matchNumber}/${totalRoundMatches})`;
+        }
+
+        function selectStyle(side) {
+            const selected = side === 'left' ? 
+                currentRound[currentMatch] : 
+                currentRound[currentMatch + 1];
+            
+            nextRound.push(selected);
+            currentMatch += 2;
+            completedMatches++;
+            
+            updateProgress();
+            
+            // 선택 효과
+            const selectedCard = document.getElementById(side + 'Card');
+            selectedCard.style.transform = 'scale(1.1)';
+            selectedCard.style.border = '3px solid #ff6b6b';
+            
+            setTimeout(() => {
+                selectedCard.style.transform = '';
+                selectedCard.style.border = '3px solid transparent';
+                showMatch();
+            }, 500);
+        }
+
+        function showWinner(winner) {
+            document.getElementById('gameContainer').style.display = 'none';
+            document.getElementById('winnerScreen').style.display = 'block';
+            
+            document.getElementById('winnerIcon').textContent = winner.icon;
+            document.getElementById('winnerName').textContent = winner.name;
+            document.getElementById('winnerDesc').textContent = winner.description;
+        }
+
+        function restartGame() {
+            initGame();
+        }
+
+        // 게임 시작
+        initGame();
+    </script>
+</body>
+</html>
